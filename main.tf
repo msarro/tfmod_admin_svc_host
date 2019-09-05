@@ -18,7 +18,7 @@ resource "aws_instance" "adminsvc" {
 
 resource "aws_security_group" "adminsvc" {
   name        = "adminsvc-${var.environment}"
-  description = "Allows SSH traffic into bastion hosts."
+  description = "Allows ssh and http traffic into admin service hosts."
   vpc_id      = "${var.vpc_id}"
 
   ingress {
@@ -28,14 +28,21 @@ resource "aws_security_group" "adminsvc" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = "${var.cidr_blocks}"
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port = 443
+    to_port = 443
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags {
-    Name = "allow_bastion_ssh"
+    Name = "allow_adminsvc_ssh"
   }
 }
