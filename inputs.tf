@@ -22,7 +22,7 @@ variable "environment" {
 
 variable "count" {
   description = "The number of admin hosts to be created"
-  default = 1
+  default = "1"
 }
 
 variable "vpc_id" {
